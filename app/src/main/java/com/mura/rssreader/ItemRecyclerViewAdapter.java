@@ -3,7 +3,6 @@ package com.mura.rssreader;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,9 @@ import android.widget.TextView;
 
 import com.mura.rssreader.ItemFragment.OnListFragmentInteractionListener;
 import com.mura.rssreader.api.FeedItem;
-import com.mura.rssreader.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class ItemRecyclerViewAdapter extends RecyclerView.Adapter<ItemRecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "ItemRecyclerViewAdapter";
     private final List<FeedItem> mValues;
