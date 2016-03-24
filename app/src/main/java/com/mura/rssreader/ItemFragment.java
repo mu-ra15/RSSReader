@@ -9,11 +9,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.mura.rssreader.dummy.DummyContent;
-import com.mura.rssreader.dummy.DummyContent.DummyItem;
+import com.mura.rssreader.api.Feed;
+import com.mura.rssreader.api.FeedItem;
+import com.mura.rssreader.api.RssAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+import retrofit.converter.SimpleXMLConverter;
 
 /**
  * A fragment representing a list of Items.
@@ -22,12 +31,13 @@ import java.util.List;
  * interface.
  */
 public class ItemFragment extends Fragment {
-
+    private static final String TAG = "ItemFragment";
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private View mView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -58,20 +68,46 @@ public class ItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        mView = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        RestAdapter restAdapter = new RestAdapter.Builder()
+                .setEndpoint("http://ihoku.jp")
+                .setConverter(new SimpleXMLConverter())
+                .build();
+
+        RssAdapter rssAdapter = restAdapter.create(RssAdapter.class);
+        rssAdapter.getItems(new Callback<Feed>() {
+            @Override
+            public void success(Feed newsitems, Response response) {
+                Toast.makeText(getContext(), "oki", Toast.LENGTH_LONG).show();
+                List<FeedItem> mItems = new ArrayList<>();
+
+                mItems = newsitems.getmChannel().getFeedItems();
+                // Crear un nuevo adaptador
+
+                // Set the adapter
+                if (mView instanceof RecyclerView) {
+                    Context context = mView.getContext();
+                    RecyclerView recyclerView = (RecyclerView) mView;
+                    if (mColumnCount <= 1) {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                    } else {
+                        recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                    }
+                    recyclerView.setAdapter(new ItemRecyclerViewAdapter(mItems, mListener));
+                }
             }
-            recyclerView.setAdapter(new ItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
-        return view;
+
+            @Override
+            public void failure(RetrofitError error) {
+                System.out.println(error);
+
+                Toast.makeText(getContext(), "Error" + error.getMessage(), Toast.LENGTH_LONG).show();
+
+
+            }
+        });
+        return mView;
     }
 
 
@@ -104,6 +140,6 @@ public class ItemFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(FeedItem item);
     }
 }

@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.mura.rssreader.api.FeedItem;
 import com.mura.rssreader.dummy.DummyContent;
 
 public class HomeActivity extends AppCompatActivity
@@ -56,7 +57,7 @@ public class HomeActivity extends AppCompatActivity
         // FragmentTransaction を開始
         FragmentTransaction transaction = manager.beginTransaction();
 
-        // FragmentContainer のレイアウトに、MyFragment を割当てる
+        // FragmentContainer のレイアウトに、Fragment を割当てる
         transaction.add(R.id.content_home, ItemFragment.newInstance(1));
 
         // 変更を確定して FragmentTransaction を終える
@@ -122,7 +123,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        Toast.makeText(HomeActivity.this, "ItemID:" + item.id, Toast.LENGTH_SHORT).show();
+    public void onListFragmentInteraction(FeedItem item) {
+        Toast.makeText(HomeActivity.this, "Title:" + item.getMtitle(), Toast.LENGTH_SHORT).show();
     }
 }
