@@ -3,6 +3,8 @@ package com.mura.rssreader;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -14,8 +16,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.mura.rssreader.dummy.DummyContent;
+
 public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+                   ItemFragment.OnListFragmentInteractionListener{
 
     private static final String TAG = "HomeActivity";
 
@@ -44,6 +49,17 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentManager manager = getSupportFragmentManager();
+
+        // FragmentTransaction を開始
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        // FragmentContainer のレイアウトに、MyFragment を割当てる
+        transaction.add(R.id.content_home, ItemFragment.newInstance(1));
+
+        // 変更を確定して FragmentTransaction を終える
+        transaction.commit();
     }
 
     @Override
@@ -102,5 +118,10 @@ public class HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+        Log.d(TAG, "onListFragmentInteraction ID:" + item.id);
     }
 }
