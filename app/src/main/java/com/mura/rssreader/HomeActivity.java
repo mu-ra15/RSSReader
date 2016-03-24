@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.mura.rssreader.dummy.DummyContent;
 
@@ -122,6 +123,6 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
-        Log.d(TAG, "onListFragmentInteraction ID:" + item.id);
+        Toast.makeText(HomeActivity.this, "ItemID:" + item.id, Toast.LENGTH_SHORT).show();
     }
 }
