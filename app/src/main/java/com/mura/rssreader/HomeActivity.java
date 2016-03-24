@@ -86,16 +86,17 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            Log.d(TAG, "nav_camera");
         } else if (id == R.id.nav_gallery) {
-
+            Log.d(TAG, "nav_gallery");
         } else if (id == R.id.nav_slideshow) {
-
+            Log.d(TAG, "nav_slideshow");
         } else if (id == R.id.nav_manage) {
-
+            Log.d(TAG, "nav_manage");
         } else if (id == R.id.nav_share) {
-
+            Log.d(TAG, "nav_share");
         } else if (id == R.id.nav_send) {
-
+            Log.d(TAG, "nav_send");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
