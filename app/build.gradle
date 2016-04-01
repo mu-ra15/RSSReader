@@ -34,4 +34,6 @@ dependencies {
         exclude group: 'stax', module: 'stax'
     }
     compile 'com.google.code.gson:gson:2.4'
+
+    compile 'com.android.support:customtabs:23.2.1'
 }
