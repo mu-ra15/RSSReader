@@ -1,10 +1,17 @@
 package com.mura.rssreader;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -123,6 +130,17 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(FeedItem item) {
-        Toast.makeText(HomeActivity.this, "Title:" + item.getMtitle(), Toast.LENGTH_SHORT).show();
+        final Intent intent = new Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, item.getMlink());
+        final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        final Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_action_share);
+
+        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+        builder.setToolbarColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        builder.setStartAnimations(this, R.anim.slide_in_right, R.anim.slide_out_left);
+        builder.setExitAnimations(this, android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_arrow_back));
+        builder.setActionButton(icon, getString(R.string.action_share), pendingIntent);
+        CustomTabsIntent customTabsIntent = builder.build();
+        customTabsIntent.launchUrl(this, Uri.parse(item.getMlink()));
     }
 }
