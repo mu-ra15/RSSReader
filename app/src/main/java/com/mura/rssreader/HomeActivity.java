@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -113,6 +114,8 @@ public class HomeActivity extends AppCompatActivity
             Log.d(TAG, "nav_camera");
         } else if (id == R.id.nav_gallery) {
             Log.d(TAG, "nav_gallery");
+            Intent intent = new Intent(this, DetailActivity.class);
+            this.startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
             Log.d(TAG, "nav_slideshow");
         } else if (id == R.id.nav_manage) {
@@ -130,6 +133,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(FeedItem item) {
+
+        // Chrome custom Tabsを起動
         final Intent intent = new Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, item.getMlink());
         final PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         final Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_action_share);

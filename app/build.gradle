@@ -36,4 +36,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
 
     compile 'com.android.support:customtabs:23.2.1'
+
+    compile('com.sangcomz:FishBun:0.4.4@aar') {
+        transitive = true
+    }
 }
