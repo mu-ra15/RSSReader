@@ -40,4 +40,5 @@ dependencies {
     compile('com.sangcomz:FishBun:0.4.4@aar') {
         transitive = true
     }
+    compile 'com.diegocarloslima:byakugallery:0.1.+@aar'
 }
